@@ -1,0 +1,10 @@
+# Ignore node_modules directory
+node_modules/
+
+# Ignore logs and build output
+logs/
+dist/
+.DS_Store
+
+# Ignore environment-specific .env files
+.env*
