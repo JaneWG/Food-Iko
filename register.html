@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel ="stylesheet" href="index.css"> 
+    <link rel="stylesheet" href="index.css"> 
     <title>Register</title>
 </head>
 <body>
@@ -11,19 +11,25 @@
     <br>
     <br>
     <main>
-        <form action="/submit_form" method="post">
-            <label for="firstname">First Name:</label><br>
-            <input type="text" id="Firstname"="First Name"><br><br>
-    
+        <form action="/users/register" method="post">
+            <label for="full_name">Full Name:</label><br>
+            <input type="text" id="full_name" name="full_name" required><br><br>
+
             <label for="email">Email:</label><br>
             <input type="email" id="email" name="email" required><br><br>
+
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+
             <input type="submit" value="Submit">
-        
         </form>
     </main>
+    <script src="script.js"></script>
 </body>
 </html>
 
-    </main>
-</body>
-</html>
+
+    

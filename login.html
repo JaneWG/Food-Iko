@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel ="stylesheet" href="index.css"> 
+    <link rel="stylesheet" href="index.css"> 
     <title>Login</title>
 </head>
 <body>
@@ -11,24 +11,22 @@
        <h1>Log In</h1> 
     </header>
 
-    
-    
-        <form action="/submit_form" method="post">
-            <label for="username" >Username:</label><br>
+    <main>
+        <form action="/login" method="post">
+            <label for="username">Username:</label><br>
             <div class="nameuser">
-            
-        <input type="text"  name="Username" required ><br><br>
-    </div>
+                <input type="text" id="username" name="username" required><br><br>
+            </div>
             <label for="password">Password:</label><br>
-           <div class="nameuser">
-            <input type="password" name="password" required>
-        </div>
-            <br><br>
             <div class="nameuser">
-            <input type="submit" value="Submit">
-        </div>
-        
+                <input type="password" id="password" name="password" required><br><br>
+            </div>
+            <div class="nameuser">
+                <input type="submit" value="Submit">
+            </div>
         </form>
-    
+    </main>
+
+    <script src="script.js"></script> 
 </body>
 </html>
