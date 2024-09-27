@@ -12,13 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const full_name = formData.get('full_name');
 
             try {
-                const response = await fetch('/users/register', { // Updated URL
+                const response = await fetch('/users/register', { // Corrected URL
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ username, password, email, full_name })
                 });
+
                 if (response.ok) {
                     alert('Registration successful');
                     window.location.href = 'login.html'; // Redirect to login after successful registration
@@ -59,3 +60,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+

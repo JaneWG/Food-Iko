@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const mysql = require('mysql2');
 const session = require('express-session');
@@ -71,17 +69,27 @@ app.post('/users/register', [
     // Validation check
     check('email').isEmail().withMessage('Provide a valid email address.'),
     check('username').isAlphanumeric().withMessage('Invalid username. Provide alphanumeric values.'),
-    check('email').custom(async (value) => {
-        const exist = await User.getUserByEmail(value);
-        if (exist) {
-            throw new Error('Email already exists');
-        }
+    check('email').custom((email) => {
+        return new Promise((resolve, reject) => {
+            User.getUserByEmail(email, (err, results) => {
+                if (err) return reject(new Error('Server Error'));
+                if (results.length > 0) {
+                    return reject(new Error('Email already exists'));
+                }
+                resolve(true);
+            });
+        });
     }),
-    check('username').custom(async (value) => {
-        const exist = await User.getUserByUsername(value);
-        if (exist) {
-            throw new Error('Username already in use.');
-        }
+    check('username').custom((username) => {
+        return new Promise((resolve, reject) => {
+            User.getUserByUsername(username, (err, results) => {
+                if (err) return reject(new Error('Server Error'));
+                if (results.length > 0) {
+                    return reject(new Error('Username already in use.'));
+                }
+                resolve(true);
+            });
+        });
     })
 ], async (request, response) => {
     // Check for validation errors
@@ -96,10 +104,11 @@ app.post('/users/register', [
 
     // Define a new user object
     const newUser = {
-        full_name: request.body.full_name,
-        email: request.body.email,
         username: request.body.username,
-        password: hashedPassword
+        password: request.body.hashedPassword,
+        email:request.email.body.email,
+        full_name: request.body.full_name,
+        
     }
 
     // Save new user
@@ -116,6 +125,7 @@ app.post('/users/register', [
 // Handle the login logic - authentication
 app.post('/login', (request, response) => {
     const { username, password } = request.body;
+
     connection.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
         if (err) throw err;
         if (results.length === 0) {
@@ -126,7 +136,7 @@ app.post('/login', (request, response) => {
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) throw err;
                 if (isMatch) {
-                    // Storing user data to the session variable
+                    // Store user data in the session
                     request.session.user = user;
                     response.status(200).json({ message: 'Login successful' });
                 } else {
@@ -137,12 +147,12 @@ app.post('/login', (request, response) => {
     });
 });
 
-// Handle authorization
+// Handle authorization middleware
 const userAuthenticated = (request, response, next) => {
     if (request.session.user) {
-        next();
+        next(); // User is authenticated
     } else {
-        response.redirect('/login');
+        response.redirect('/login'); // User not authenticated
     }
 }
 
@@ -151,7 +161,7 @@ app.get('/index', userAuthenticated, (request, response) => {
     response.status(200).json({ message: 'You are viewing a secured route.' });
 });
 
-// Destroy session
+// Destroy session (logout)
 app.get('/logout', (request, response) => {
     request.session.destroy();
     response.redirect('/login');
@@ -161,23 +171,4 @@ app.get('/logout', (request, response) => {
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

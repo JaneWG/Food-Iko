@@ -3,33 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
     <link rel="stylesheet" href="index.css"> 
-    <title>Register</title>
+
 </head>
 <body>
-    <h1>Please Fill This Form to Register</h1>
-    <br>
-    <br>
-    <main>
-        <form action="/users/register" method="post">
-            <label for="full_name">Full Name:</label><br>
-            <input type="text" id="full_name" name="full_name" required><br><br>
-
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" required><br><br>
-
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" required><br><br>
-
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" required><br><br>
-
-            <input type="submit" value="Submit">
-        </form>
-    </main>
+    <form id="register-form" action="/users/register" method="POST">
+        <h2>Register</h2>
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="full_name" placeholder="Full Name" required>
+        <button type="submit">Register</button>
+    </form>
+    
+     
     <script src="script.js"></script>
 </body>
-</html>
-
-
-    
+</html>  
